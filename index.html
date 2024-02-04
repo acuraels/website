@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Мой первый шаг</title>
+
+    <style>
+        body 
+        {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('images/nature.jpg');
+            background-size: 100% auto;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        body::before 
+        {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        .container 
+        {
+            position: relative;
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rectangle 
+        {
+            position: relative;
+            width: 1111px;
+            padding: 25px;
+            background-color: rgba(201, 160, 26, 0.35);
+            border-radius: 90px;
+            overflow: hidden;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        pre 
+        {
+            font-size: 24px;
+            font-family: 'Times New Roman', Times, serif, sans-serif;
+            color: rgb(213, 212, 190);
+            margin: 0;
+            padding: 0; 
+            animation: slideIn 1s forwards;
+            display: none;
+            font-weight: bold; 
+        }
+
+        @keyframes fadeIn 
+        {
+            from 
+            {
+                opacity: 0;
+            }
+
+            to 
+            {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn 
+        {
+            from 
+            {
+                transform: translateY(-20px);
+            }
+
+            to 
+            {
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() 
+        {
+            var rectangles = document.querySelectorAll('.rectangle');
+            var pres = document.querySelectorAll('pre');
+            var isVisible = [false, false, false];
+            var currentRectangleIndex = 0;
+            var enterCount = 0;
+
+            document.addEventListener('keydown', function(e) 
+            {
+                if (e.key === 'Enter') 
+                {
+                    enterCount++;
+
+                    if (enterCount > 3) 
+                    {
+                        for (var i = 0; i < rectangles.length; i++) 
+                        {
+                            rectangles[i].style.display = "none";
+                            pres[i].style.display = "none";
+                        }
+                        enterCount = 0;
+                    } 
+
+                    else 
+                    {
+                        if (currentRectangleIndex === 0) 
+                        {
+                            rectangles[currentRectangleIndex].style.display = "flex";
+                            pres[currentRectangleIndex].style.display = "block";
+                            rectangles[currentRectangleIndex].classList.add("fadeIn");
+                            pres[currentRectangleIndex].classList.add("slideIn");
+                        } 
+                        else if (currentRectangleIndex < rectangles.length) 
+                        {
+                            rectangles[currentRectangleIndex - 1].classList.remove("fadeIn");
+                            pres[currentRectangleIndex - 1].classList.remove("slideIn");
+                            rectangles[currentRectangleIndex - 1].style.display = "none";
+                            pres[currentRectangleIndex - 1].style.display = "none";
+
+                            rectangles[currentRectangleIndex].style.display = "flex";
+                            pres[currentRectangleIndex].style.display = "block";
+                            rectangles[currentRectangleIndex].classList.add("fadeIn");
+                            pres[currentRectangleIndex].classList.add("slideIn");
+                        }
+
+                        isVisible[currentRectangleIndex] = !isVisible[currentRectangleIndex];
+                        currentRectangleIndex++;
+
+                        if (currentRectangleIndex === rectangles.length) 
+                        {
+                            currentRectangleIndex = 0;
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+</head>
+
+<body>
+    <bgsound src="ambient.mp3" loop="1" volume="10" balance="0" />
+
+    <div class="container">
+
+        <div class="rectangle">
+            <pre>
+                Приро́да — материальный мир Вселенной, основной объект изучения естественных наук.
+            </pre>
+        </div>
+        <div class="rectangle">
+            <pre>
+                B быту слово «природа» часто употребляется в интересном значении...
+            </pre>
+        </div>
+        <div class="rectangle">
+            <pre>
+                Значении естественная среда обитания (всё, что не создано человеком).   :)
+            </pre>
+        </div>
+
+    </div>
+</body>
+
+</html>
